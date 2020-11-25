@@ -49,6 +49,12 @@ const useStyles = makeStyles((theme) => ({
 const SignUp = () => {
   const classes = useStyles();
 
+  // state
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+
 
   return (
     <Container component="main" maxWidth="xs">
