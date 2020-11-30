@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { SignUpApiResponse } from '../types'
 
 function Copyright() {
   return (
@@ -49,76 +47,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignUp = () => {
+const Login = () => {
   const classes = useStyles();
 
-  // history
-  const history = useHistory();
-
-  // state
+  //state
   const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [password, setPassword] = useState<string>("")
 
-  // handle username input
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const username = e.currentTarget.value;
-    setUsername(username)
+    setUsername(username);
   }
 
-  // handle email input
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const email = e.currentTarget.value;
-    setEmail(email);
-  }
-
-  // handle password input
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const password = e.currentTarget.value;
     setPassword(password);
   }
 
-  // handle form submission
-    const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      axios({
-        method: 'POST',
-        url: 'http://localhost:5000/users',
-        data: {
+  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    axios({
+      method: 'POST',
+      url: 'http://localhost:5000/auth/login',
+      data: {
           username: username,
-          email: email,
           password: password
-        }
-      })
-      .then((response: AxiosResponse<SignUpApiResponse>) => {
-        console.log(response.data)
-        history.push('/login')
-        // axios({
-        //   method: 'POST',
-        //   url: 'http://localhost:5000/auth/login',
-        //   data: {
-        //     email: email,
-        //     password: password
-        //   }
-        // })
-        // .then((response: AxiosResponse<SignInApiResponse>) => {
-        //   console.log(response.data.user)
-        //   console.log(`${username} is signed in!`)
-        // })
-        // .catch((error: AxiosError) => {
-        //   console.log(error)
-        // })
-      })
-      .catch((error: AxiosError) => {
-        console.log(error)
-      })
-    }
-
-
+      }
+    })
+    .then((response: AxiosResponse) => {
+      console.log(response.data)
+    })
+    .catch((error: AxiosError) => {
+      console.log(error)
+    })
+  }
+  
   return (
+    <>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -126,21 +93,9 @@ const SignUp = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign Up
+          Log In
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={handleEmailChange}
-          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -176,7 +131,7 @@ const SignUp = () => {
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+            Log In
           </Button>
           <Grid container>
             <Grid item xs>
@@ -186,7 +141,7 @@ const SignUp = () => {
             </Grid>
             <Grid item>
               <Link href="#" variant="body2">
-                {"Already have an account? Log In"}
+                {"Don't have an account? Sign up!"}
               </Link>
             </Grid>
           </Grid>
@@ -195,8 +150,9 @@ const SignUp = () => {
       <Box mt={8}>
         <Copyright />
       </Box>
-    </Container>
-  );
+    </Container>    
+    </>
+  )
 }
 
-export default SignUp;
+export default Login
